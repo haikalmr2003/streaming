@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontrol Live Streaming YouTube</title>
+</head>
+<body>
+    <h2>Kontrol Live Streaming YouTube</h2>
+    <form id="streamForm">
+        <label for="streamKey">Streaming Key:</label>
+        <input type="text" id="streamKey" placeholder="Masukkan Streaming Key"><br><br>
+        
+        <label for="driveUrl">Google Drive Video URL:</label>
+        <input type="text" id="driveUrl" placeholder="Masukkan URL video dari Google Drive"><br><br>
+
+        <button type="button" onclick="startStream()">Mulai Streaming</button>
+        <button type="button" onclick="stopStream()" style="background-color: red; color: white;">Berhenti Streaming</button>
+    </form>
+
+    <script>
+        function startStream() {
+            let streamKey = document.getElementById('streamKey').value;
+            let driveUrl = document.getElementById('driveUrl').value;
+            
+            if (!streamKey || !driveUrl) {
+                alert("Harap isi semua data!");
+                return;
+            }
+
+            localStorage.setItem("streamKey", streamKey);
+            localStorage.setItem("driveUrl", driveUrl);
+
+            window.open(`https://colab.research.google.com/drive/1XXXXX_YOUR_COLAB_FILE_ID`, "_blank");
+        }
+
+        function stopStream() {
+            fetch("https://YOUR_FLASK_SERVER_URL/stop")
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => alert("Gagal menghentikan streaming"));
+        }
+    </script>
+</body>
+</html>
